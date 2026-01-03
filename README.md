@@ -46,20 +46,14 @@ Other:
 ---
 ## Project Structure
 tasktrack/
-├── models/
-│ └── task.js
-├── views/
-│ ├── tasks/
-│ └── layouts/
-├── public/
-│ └── css/
-├── utils/
-│ ├── ExpressError.js
-│ └── wrapAsync.js
-├── Schema.js
-├── app.js
-├── package.json
-└── README.md
+models/ → task.js  
+views/ → tasks/, layouts/  
+public/ → css/  
+utils/ → ExpressError.js, wrapAsync.js  
+Schema.js  
+app.js  
+package.json  
+README.md
 
 ---
 
