@@ -1,0 +1,43 @@
+Objective:
+Build a Task Tracker Web Application that demonstrates your understanding of MERN stack fundamentals.
+
+Deadline:
+📅 3rd January 2025, 6:00 PM
+
+Requirements:
+
+Develop the application using the MERN stack.
+
+Deploy the application on any platform of your choice.
+
+Ensure the application is fully functional and accessible via a public URL.
+
+Guidelines:
+
+You may use Google or online references.
+
+Focus on working functionality over UI polish.
+
+Code quality, structure, and logic will be evaluated.
+
+Submission Instructions:
+Submit the following via the Google Form:
+
+Deployed application link
+
+GitHub repository link or ZIP file
+
+Late or incomplete submissions will not be considered.
+
+Google Form Submission Link:
+👉 https://forms.gle/eqSQmjmtqaJotzoy6
+
+All detailed task requirements are shared in the attached document.
+Best of luck! 🚀
+
+db.tasks.insertOne({title:'Apply for hirings',
+description:'Search for a jobs',
+priority:'High',
+duedate:Date.now()+12*60*60*1000,
+status:'Pending'
+});
