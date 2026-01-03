@@ -67,7 +67,7 @@ const validateTask = (req, res, next) => {
 
 
 app.get('/',(req,res)=>{
-    res.send('Root Working🤞');
+    res.redirect('/tasks');
 });
 
 //index route
