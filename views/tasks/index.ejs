@@ -1,6 +1,6 @@
 <%- layout('layouts/boilerplate')%>
 <body class="bg-light">
-<div class="container my-5">
+<div class="container my-3">
     <h1 class="text-center mb-4">📋My Tasks</h1>
     <div class="row">
         <h3 class="text-center">To do</h3>
@@ -37,6 +37,12 @@
                             <%}%>
                         </small>
                     </p>
+                     <p class="mb-1">
+                        <strong>Created By:</strong>
+                        <span class="badge  text-dark">
+                            <%= task.user.username %>
+                        </span>
+                    </p>
                     <div class="d-flex align-items-center gap-3">
                         <form action="/tasks/<%=task._id%>/update?_method=PUT" method="POST">
                             <button onclick="toggleStatus()" class="btn btn-sm mt-1 btn-secondary">Done</button>
@@ -49,9 +55,6 @@
             </div>
         </div>
         <% } %>
-        <form class="text-center" action="/tasks/new" method="GET">
-            <button class="btn btn-outline-secondary">Add Task</button>
-        </form>
     </div>
     
     <div class="row mt-3">
@@ -87,7 +90,7 @@
                         </small>
                     </p>
                     <div class="d-flex align-items-center gap-3">
-                        <form action="/tasks/<%=task._id%>/update?_method=PUT" method="POST">
+                        <form action="/tasks/<%=task._id%>/incomplete?_method=PUT" method="POST">
                             <button id="complete" class="btn btn-success btn-sm mt-1 ">Completed</button>
                         </form>
                         <form action="/tasks/<%=task._id%>?_method=DELETE" method="POST">

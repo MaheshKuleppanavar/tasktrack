@@ -3,30 +3,30 @@ const express=require('express');
 const app=express();
 const path=require('path');
 const mongoose=require('mongoose');
-const Task=require('./models/task.js');
+const User=require('./models/user.js');
 const methodOverride=require('method-override');
 const ejsMate=require('ejs-mate');
-const Joi=require('joi')
-const wrapAsync=require('./utils/wrapAsync.js');
-const ExpressError=require('./utils/ExpressError.js');
-const taskSchema=require('./Schema.js');
 const session=require('express-session');
 const flash=require('connect-flash');
+const passport=require('passport');
+const LocalStrategy=require('passport-local');
+const userRoutes=require('./routes/user.js');
+const taskRoutes=require('./routes/task.js');
 
 async function main() {
     await mongoose.connect(process.env.MONGO_URL);
-    // await mongoose.connect('mongodb://127.0.0.1:27017/tracker');
+    // await mongoose.connect('mongodb://127.0.0.1:27017/todo');
 }
 
 main().then(()=>console.log('Database connected🔗'))
 .catch(e=>{
     console.log(e);
-})
+});
 
 const sessionOptions={
     secret: process.env.SESSION_SECRET,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookie: {
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         httpOnly: true
@@ -41,9 +41,16 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
     res.locals.success=req.flash('success');
     res.locals.error=req.flash('error');
+    res.locals.currentUser=req.user;
     next();
 });
 
@@ -54,78 +61,15 @@ app.use(express.static(path.join(__dirname,'/public')));
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
-const validateTask = (req, res, next) => {
-    const { error } = taskSchema.validate(req.body);
-    if (error) {
-        throw new ExpressError(
-            error.details.map(e => e.message).join(','),
-            400
-        );
-    }
-    next();
-};
-
-
-app.get('/',(req,res)=>{
-    res.send('Root Working🤞');
-});
+app.use('/',userRoutes);
+app.use('/tasks',taskRoutes);
 
 //index route
-app.get('/tasks',wrapAsync(async (req,res)=>{
-    const tasks=await Task.find({status:'pending'});
-    const completed=await Task.find({status:'completed'});
-    res.render('tasks/index.ejs',{tasks,completed});
-}));
-
-//new route
-app.get('/tasks/new',async(req,res)=>{
-    res.render('tasks/new.ejs')
-});
-
-app.post('/tasks',validateTask,async (req,res)=>{
-    let task=new Task({...req.body.task});
-    task=await task.save();
-    if(task){
-        req.flash('success','Task Added Succesfully✅');
-    }
-    res.redirect('/tasks');
-});
-
-app.get('/tasks/edit',async(req,res)=>{
-    res.render('tasks/edit.ejs');
-});
-
-app.put('/tasks/:id/update',wrapAsync(async (req,res)=>{
-    let {id}=req.params;
-    let task=await Task.findByIdAndUpdate(id,{status:'completed'},{new:true});
-    if(!task){
-        req.flash('error','Task you requested does not exist!');
-    }
-    else{
-        req.flash('success','Task Completed🎯');
-    }
-    res.redirect('/tasks');
-}));
-
-//delete route
-app.delete('/tasks/:id',async(req,res)=>{
-    let {id}=req.params;
-    let task=await Task.findByIdAndDelete(id);
-    if(task){
-        req.flash('success','Task Deleted Successfully');
-    }
-    else{
-        req.flash('error','Task you requested does not exist!');
-    }  
-    res.redirect('/tasks');  
-})
-
 app.use((req,res,next)=>{
     res.status(404).render('error.ejs', {
     message: 'Page Not Found',
     statusCode: 404
-});
-
+    });
 })
 
 //error handling middleware

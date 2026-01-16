@@ -9,8 +9,8 @@
 <body>
     <form action="/tasks" method="POST" class="needs-validation" novalidate>
         <div class="row">
-            <h1 class="col-6 offset-3 mt-3 mb-3">Add a New Task</h1>
-            <div class="col-6 offset-3 mb-3">
+            <h1 class="col-md-6 col-10 offset-1 offset-md-3 mt-3 mb-3">Add a New Task</h1>
+            <div class="col-md-6 col-10 offset-1 offset-md-3 mb-3">
                 <div class="mb-3">              
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" name="task[title]" required>
@@ -27,7 +27,7 @@
                     <div class="invalid-feedback">Due Date Required</div>
                 </div>
                 <div class="row">  
-                        <div class="mb-3 col-6">              
+                        <div class="mb-3 col-md-6">              
                             <label for="priority" class="form-label">Prioroty</label>
                             <select name="task[priority]" id="priority" class="form-select mb-3">
                                 <option selected value="low">Low</option>
@@ -36,7 +36,7 @@
                             </select>
                             <div class="invalid-feedback">Priority Required</div>
                         </div>
-                        <div class="mb-3 col-6">              
+                        <div class="mb-3 col-md-6">              
                             <label for="task[status]" class="form-label">Status</label>
                             <select name="task[status]" id="status" class="form-select mb-3">
                                 <option selected value="pending">Pending</option>
