@@ -4,7 +4,7 @@ const Task=require('../models/task.js');
 const {validateTask,isLoggedin, saveUrl}=require('../middlewrae.js');
 const wrapAsync=require('../utils/wrapAsync.js')
 
-router.get('/', isLoggedin, wrapAsync(async (req, res) => {
+router.get('/', wrapAsync(async (req, res) => {
   const tasks = await Task.find({
     status: 'pending',
     user: req.user._id
@@ -21,9 +21,6 @@ router.get('/', isLoggedin, wrapAsync(async (req, res) => {
 
 //new route
 router.get('/new',isLoggedin,wrapAsync(async(req,res)=>{
-    console.log(req.user);
-    console.log(res.locals.redirectUrl);
-
     return res.render('tasks/new.ejs');
 }));
 
