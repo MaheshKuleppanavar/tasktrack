@@ -16,7 +16,7 @@ module.exports.validateTask = (req, res, next) => {
 module.exports.isLoggedin=(req,res,next)=>{
     if(!req.isAuthenticated()){
         req.session.redirectUrl=req.originalUrl;
-        req.flash('error','You must be login');
+        req.flash('error','Please login to continue with us');
         return res.redirect('/login');
     }
     next();

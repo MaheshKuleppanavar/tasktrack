@@ -62,7 +62,10 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
 app.use('/',userRoutes);
-app.use('/tasks',taskRoutes);
+app.get('/',(req,res)=>{
+    res.redirect('/tasks');
+});
+app.use('/tasks',taskRoutes)
 
 //index route
 app.use((req,res,next)=>{

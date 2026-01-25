@@ -1,10 +1,10 @@
 const express=require('express');
 const router=express.Router();
 const Task=require('../models/task.js');
-const {validateTask,isLoggedin, saveUrl}=require('../middlewrae.js');
+const {validateTask,isLoggedin}=require('../middlewrae.js');
 const wrapAsync=require('../utils/wrapAsync.js')
 
-router.get('/',isLoggedIn, wrapAsync(async (req, res) => {
+router.get('/', isLoggedin,wrapAsync(async (req, res) => {
   const tasks = await Task.find({
     status: 'pending',
     user: req.user._id
@@ -15,12 +15,15 @@ router.get('/',isLoggedIn, wrapAsync(async (req, res) => {
     user: req.user._id
   });
 
-  res.render('tasks/index.ejs', { tasks, completed });
+  res.render('tasks/index.ejs',{tasks,completed});
 }));
 
 
 //new route
 router.get('/new',isLoggedin,wrapAsync(async(req,res)=>{
+    console.log(req.user);
+    console.log(res.locals.redirectUrl);
+
     return res.render('tasks/new.ejs');
 }));
 

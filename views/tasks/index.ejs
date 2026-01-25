@@ -37,6 +37,12 @@
                             <%}%>
                         </small>
                     </p>
+                     <p class="mb-1">
+                        <strong>Created By:</strong>
+                        <span class="badge  text-dark">
+                            <%= task.user.username %>
+                        </span>
+                    </p>
                     <div class="d-flex align-items-center gap-3">
                         <form action="/tasks/<%=task._id%>/update?_method=PUT" method="POST">
                             <button onclick="toggleStatus()" class="btn btn-sm mt-1 btn-secondary">Done</button>
