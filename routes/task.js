@@ -4,7 +4,7 @@ const Task=require('../models/task.js');
 const {validateTask,isLoggedin, saveUrl}=require('../middlewrae.js');
 const wrapAsync=require('../utils/wrapAsync.js')
 
-router.get('/', wrapAsync(async (req, res) => {
+router.get('/',isLoggedIn, wrapAsync(async (req, res) => {
   const tasks = await Task.find({
     status: 'pending',
     user: req.user._id
